@@ -4,7 +4,7 @@
 
 | System | Package |
 | --- | --- |
-| `x86_64-linux` | Debian 패키지(네이티브 Nix 런타임으로 패치) |
+| `x86_64-linux` | Debian 패키지 |
 | `aarch64-darwin` | Apple Silicon DMG |
 | `x86_64-darwin` | Intel DMG |
 
