@@ -21,7 +21,7 @@ let
   inherit (sources) version;
 
   meta = {
-    description = "Web novel editor";
+    description = "A storytelling tool for everyone";
     homepage = "https://github.com/KimuSoft/muvel-public";
     license = lib.licenses.unfree;
     sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
