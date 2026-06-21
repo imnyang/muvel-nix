@@ -1,8 +1,8 @@
-name: Update Muvel
+name: Update flake inputs
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 0 * * 0"
   workflow_dispatch:
 
 permissions:
@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: update-muvel
+  group: update-flake-inputs
   cancel-in-progress: false
 
 jobs:
@@ -25,15 +25,13 @@ jobs:
       - name: Install Nix
         uses: cachix/install-nix-action@v31
 
-      - name: Update release sources
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: ./scripts/update.sh
+      - name: Update flake inputs
+        run: nix flake update
 
       - name: Detect changes
         id: changes
         run: |
-          if git diff --quiet -- sources.json; then
+          if git diff --quiet -- flake.lock; then
             echo "changed=false" >>"$GITHUB_OUTPUT"
           else
             echo "changed=true" >>"$GITHUB_OUTPUT"
@@ -51,25 +49,24 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
-          version="$(jq --raw-output '.version' sources.json)"
-          branch="automation/update-muvel"
+          branch="automation/update-flake-lock"
+          title="flake: update inputs"
+          body="Automated flake input update. The updated lock file passed evaluation on all supported systems and a Linux build."
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git fetch origin "$branch:refs/remotes/origin/$branch" || true
           git switch --create "$branch"
-          git add sources.json
-          git commit -m "muvel: update to $version"
+          git add flake.lock
+          git commit -m "$title"
           git push --force-with-lease origin "HEAD:$branch"
 
           if gh pr view "$branch" >/dev/null 2>&1; then
-            gh pr edit "$branch" \
-              --title "muvel: update to $version" \
-              --body "Automated Muvel release update. All source hashes were refreshed and the flake was validated."
+            gh pr edit "$branch" --title "$title" --body "$body"
           else
             gh pr create \
               --base "$DEFAULT_BRANCH" \
               --head "$branch" \
-              --title "muvel: update to $version" \
-              --body "Automated Muvel release update. All source hashes were refreshed and the flake was validated."
+              --title "$title" \
+              --body "$body"
           fi
