@@ -1,0 +1,19 @@
+{
+  "version": "2.10.6",
+  "linux": {
+    "x86_64": {
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.10.6/Muvel_2.10.6_amd64.AppImage",
+      "hash": "sha256-Kz/+YbZVlAf5QRwxh0a3vXYEVnLmFILdP6gvv0SIWHM="
+    }
+  },
+  "darwin": {
+    "aarch64": {
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.10.6/Muvel_2.10.6_aarch64.dmg",
+      "hash": "sha256-vY2UQ0YDXQvWkqC4oQ+upxaatPq4lLSsYpD5KilcJTk="
+    },
+    "x86_64": {
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.10.6/Muvel_2.10.6_x64.dmg",
+      "hash": "sha256-owNvVxFnV2tOK3wah3G3Wg8vevHGSLlnbF0hTNp1aXE="
+    }
+  }
+}
