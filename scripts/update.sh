@@ -50,7 +50,7 @@ prefetch_hash() {
   nix store prefetch-file --json "$1" | jq --exit-status --raw-output '.hash'
 }
 
-linux_url="$(asset_url "Muvel_${version}_amd64.AppImage")"
+linux_url="$(asset_url "Muvel_${version}_amd64.deb")"
 darwin_aarch64_url="$(asset_url "Muvel_${version}_aarch64.dmg")"
 darwin_x86_64_url="$(asset_url "Muvel_${version}_x64.dmg")"
 

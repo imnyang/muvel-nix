@@ -1,8 +1,17 @@
 {
   lib,
-  stdenvNoCC,
+  stdenv,
   fetchurl,
-  appimageTools,
+  autoPatchelfHook,
+  dpkg,
+  wrapGAppsHook3,
+  webkitgtk_4_1,
+  gtk3,
+  glib,
+  cairo,
+  dbus,
+  fontconfig,
+  gdk-pixbuf,
   undmg,
 }:
 
@@ -24,41 +33,61 @@ let
     ];
   };
 in
-if stdenvNoCC.hostPlatform.isLinux then
-  let
+if stdenv.hostPlatform.isLinux then
+  stdenv.mkDerivation {
+    inherit pname version meta;
+
     src = fetchurl {
       inherit (sources.linux.x86_64) url hash;
     };
 
-    appimageContents = appimageTools.extractType2 {
-      inherit pname version src;
-    };
-  in
-  appimageTools.wrapType2 {
-    inherit
-      pname
-      version
-      src
-      meta
-      ;
+    nativeBuildInputs = [
+      autoPatchelfHook
+      dpkg
+      wrapGAppsHook3
+    ];
 
-    extraInstallCommands = ''
-      install -Dm644 \
-        ${appimageContents}/usr/share/applications/Muvel.desktop \
-        $out/share/applications/muvel.desktop
+    buildInputs = [
+      webkitgtk_4_1
+      gtk3
+      glib
+      cairo
+      dbus
+      fontconfig
+      gdk-pixbuf
+      stdenv.cc.cc.lib
+    ];
 
-      substituteInPlace $out/share/applications/muvel.desktop \
+    unpackPhase = ''
+      runHook preUnpack
+      dpkg-deb --extract $src .
+      runHook postUnpack
+    '';
+
+    installPhase = ''
+      runHook preInstall
+
+      mkdir -p $out
+      cp -r usr/bin usr/lib usr/share $out/
+      substituteInPlace $out/share/applications/Muvel.desktop \
         --replace-fail 'Categories=' 'Categories=Office;'
 
-      cp -r ${appimageContents}/usr/share/icons $out/share/
+      runHook postInstall
+    '';
+
+    # WebKit's DMA-BUF path is incompatible with the NVIDIA driver. Transfer
+    # frames through SHM while retaining the session's native GDK backend.
+    preFixup = ''
+      gappsWrapperArgs+=(--set WEBKIT_DMABUF_RENDERER_FORCE_SHM 1)
+      gappsWrapperArgs+=(--unset GTK_IM_MODULE)
+      gappsWrapperArgs+=(--set GTK_USE_PORTAL 1)
     '';
   }
 else
   let
-    source =
-      if stdenvNoCC.hostPlatform.isAarch64 then sources.darwin.aarch64 else sources.darwin.x86_64;
+    source = if stdenv.hostPlatform.isAarch64 then sources.darwin.aarch64 else sources.darwin.x86_64;
   in
-  stdenvNoCC.mkDerivation {
+  stdenv.mkDerivation {
     inherit pname version meta;
 
     src = fetchurl {
