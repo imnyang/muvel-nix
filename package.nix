@@ -8,6 +8,7 @@
   webkitgtk_4_1,
   gtk3,
   glib,
+  glib-networking,
   cairo,
   dbus,
   fontconfig,
@@ -51,6 +52,7 @@ if stdenv.hostPlatform.isLinux then
       webkitgtk_4_1
       gtk3
       glib
+      glib-networking
       cairo
       dbus
       fontconfig
