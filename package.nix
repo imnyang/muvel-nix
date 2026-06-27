@@ -71,6 +71,9 @@ if stdenv.hostPlatform.isLinux then
       cp -r usr/bin usr/lib usr/share $out/
       substituteInPlace $out/share/applications/Muvel.desktop \
         --replace-fail 'Categories=' 'Categories=Office;'
+      substituteInPlace $out/share/applications/Muvel.desktop \
+        --replace-fail 'Exec=muvel' 'Exec=muvel %u' \
+        --replace-fail 'x-scheme-handler/muvel' 'x-scheme-handler/muvel;'
 
       runHook postInstall
     '';
