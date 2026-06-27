@@ -79,7 +79,8 @@ if stdenv.hostPlatform.isLinux then
         --replace-fail 'Categories=' 'Categories=Office;'
       substituteInPlace $out/share/applications/Muvel.desktop \
         --replace-fail 'Exec=muvel' 'Exec=muvel %u' \
-        --replace-fail 'x-scheme-handler/muvel' 'x-scheme-handler/muvel;'
+        --replace-fail 'MimeType=application/vnd.muvel.novel+json;application/vnd.muvel.episode+json;application/vnd.muvel.wiki+json;application/vnd.muvel.memo+json;x-scheme-handler/muvel' \
+          'MimeType=application/vnd.muvel.novel+json;application/vnd.muvel.episode+json;application/vnd.muvel.wiki+json;application/vnd.muvel.memo+json;x-scheme-handler/muvel;'
 
       runHook postInstall
     '';
