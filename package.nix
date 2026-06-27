@@ -80,10 +80,12 @@ if stdenv.hostPlatform.isLinux then
       runHook postInstall
     '';
 
-    # WebKit's DMA-BUF path is incompatible with the NVIDIA driver. Transfer
-    # frames through SHM while retaining the session's native GDK backend.
+    # WebKit's accelerated compositing path can crash with the NVIDIA driver in
+    # both the UI process and WebProcess. Disable compositing and the newer
+    # DMA-BUF renderer so closing the app does not leave a coredump behind.
     preFixup = ''
-      gappsWrapperArgs+=(--set WEBKIT_DMABUF_RENDERER_FORCE_SHM 1)
+      gappsWrapperArgs+=(--set WEBKIT_DISABLE_COMPOSITING_MODE 1)
+      gappsWrapperArgs+=(--set WEBKIT_DISABLE_DMABUF_RENDERER 1)
       gappsWrapperArgs+=(--unset GTK_IM_MODULE)
       gappsWrapperArgs+=(--set GTK_USE_PORTAL 1)
     '';
