@@ -109,12 +109,20 @@ else
 
     installPhase = ''
       runHook preInstall
-
-      mkdir -p $out/Applications
+    
+      mkdir -p $out/Applications $out/bin
+    
       appPath="$(find . -maxdepth 2 -type d -name Muvel.app -print -quit)"
       test -n "$appPath"
+    
       cp -R "$appPath" $out/Applications/Muvel.app
-
+    
+      appExe="$(find "$out/Applications/Muvel.app/Contents/MacOS" \
+        -maxdepth 1 -type f -print -quit)"
+      test -n "$appExe"
+    
+      ln -s "$appExe" $out/bin/muvel
+    
       runHook postInstall
     '';
 
