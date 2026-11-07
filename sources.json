@@ -1,19 +1,19 @@
 {
-  "version": "2.11.4",
+  "version": "2.11.7",
   "linux": {
     "x86_64": {
-      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.4/Muvel_2.11.4_amd64.deb",
-      "hash": "sha256-ZwOpeOotK7hvBtmrbz3MN6wq6tUbm8wz/X5XWwmeY7E="
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.7/Muvel_2.11.7_amd64.deb",
+      "hash": "sha256-lBS/9qOS2+/LUZn7tikwmZ+ed+0Ft7nJju/Yg1gWDqo="
     }
   },
   "darwin": {
     "aarch64": {
-      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.4/Muvel_2.11.4_aarch64.dmg",
-      "hash": "sha256-9c56wJlEsuzpcmGSg4YDz0EpZN32raF2Fd187bmqHUw="
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.7/Muvel_2.11.7_aarch64.dmg",
+      "hash": "sha256-WM92tI4PF2ImMe64tA9UtxwuaP26jPGmcVYRWlJn508="
     },
     "x86_64": {
-      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.4/Muvel_2.11.4_x64.dmg",
-      "hash": "sha256-vDEDGgQE4e6y9dAXInQaDvH0RrxnHXibNpOrsYTpZhs="
+      "url": "https://github.com/KimuSoft/muvel-public/releases/download/v2.11.7/Muvel_2.11.7_x64.dmg",
+      "hash": "sha256-LpaKPOMSQaomaQMNQWr+TnBaFqSWtCOvOGpUcNGbU8c="
     }
   }
 }
